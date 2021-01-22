@@ -4,11 +4,25 @@ import {BrowserRouter} from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+//provide global store to entire app
+import {Provider} from 'react-redux'
 
+//combined all reducers
+import allReducers from './Reducers/index.js'
+
+//redux store
+import {createStore} from "redux";
+
+//initiate the store /w all combined recuers
+const myStore = createStore(allReducers);
+
+//wrap everything inside Provider to give whole app access to the store
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+    <Provider store={myStore}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>,
   document.getElementById('root')
 );
 
