@@ -12,3 +12,12 @@ redeploy to firebase
 from this directory using bash
 1. run in cmd "npm run build"
 2. in bash "firebase deploy"
+
+
+//all npm installs:
+*router
+*react redux
+*thunk
+*firebase tools
+*react-redux-firebase
+*react-redux-firestore

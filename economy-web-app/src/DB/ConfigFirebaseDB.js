@@ -1,3 +1,8 @@
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/auth'
+
+//init firebase
 const firebaseConfig = {
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
@@ -10,6 +15,9 @@ const firebaseConfig = {
     appId: "1:839452292417:web:f3f9de383a242d78641dc0",
     measurementId: "G-M5Z9Z6L8EN"
 
-}
+};
 
-export default firebaseConfig;
+firebase.initializeApp(firebaseConfig);
+firebase.firestore().settings({ timestampsInSnapshots: true});
+
+export default firebase;

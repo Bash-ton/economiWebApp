@@ -1,6 +1,6 @@
 const setLoggedInState = (state = false, action ) => {
     switch (action.type){
-        case 'SIGN_IN':
+        case 'SIGNED_IN':
             return !state
         default:
             return state

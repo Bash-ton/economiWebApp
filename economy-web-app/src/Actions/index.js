@@ -1,5 +1,7 @@
+//TODO remove not used anymore
 export const loggedInStatus = () => {
     return {
-        type: 'SIGN_IN',
+        type: 'SIGNED_IN',
     };
 }
+
