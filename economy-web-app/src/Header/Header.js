@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-
+import './Header.css';
 //actions
 import { signOut } from '../Actions/authActions'
 //redux
@@ -12,9 +12,6 @@ const Header = () => {
     let dispatch = useDispatch();
     //render depending on logged in or not
     const isLogged = useSelector(state => state.auth.isLogged)
-
-    console.log(isLogged)
-    //"variable "isLogged" did update"
 
     return(
 

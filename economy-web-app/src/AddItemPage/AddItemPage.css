@@ -1,0 +1,118 @@
+.regret-btn{
+    display: block;
+    margin-left: auto;
+    border: none;
+    outline: none;
+    background: rgb(177, 8, 32);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+.options-categories{
+    padding: 8px 12px;
+    color: #333333;
+    background-color: #eeeeee;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.form-item .input-group select{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+    outline: none;
+    background-color: #333333;
+    color: inherit;
+}
+/*Rmove some of height to get more center*/
+/*the log in form */
+
+.AddItemPage-wrapper{
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 107px);
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(2,0,.6,1) 0%, rgb(121, 9, 26) 35%, rgb(203, 99, 99) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-item::before{
+
+}
+
+.form-item{
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    padding: 60px 40px 40px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+}
+
+.form-item::before{
+    background: transparent;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+
+    transform: skewX(-28deg);
+    transform-origin: bottom right;
+    border-radius: 10px;
+    pointer-events: none;
+}
+.form-item h2{
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    color: rgb(248, 177, 8);
+}
+.form-item .input-group{
+    position: relative;
+}
+.form-item .input-group input{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+}
+.form-item .input-group label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: .3s ease-out;
+}
+.form-item .input-group input:focus + label,
+.form-item .input-group input:valid + label{
+    transform: translateY(-18px);
+    color: rgb(248, 177, 8);
+    font-size: .8rem;
+
+}
+
+

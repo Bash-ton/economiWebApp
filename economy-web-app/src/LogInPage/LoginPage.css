@@ -1,0 +1,211 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Background gradient color*/
+.LoginPage-wrapper{
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 107px);
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(2,0,.6,1) 0%, rgb(121, 9, 26) 35%, rgb(203, 99, 99) 100%);
+}
+/*TODO remove or make less circles when mobile view*/
+/*Animated circles*/
+.box div{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+
+    border: 2px solid rgb(248, 177, 8);
+    border-radius: 50%;
+
+  /*  background-image: url("../Images/skyrimcoin1.jpg"); */
+
+    background-position: center;
+
+}
+.box div:nth-child(1){
+    top: 12%;
+    left: 42%;
+    animation: animate 10s linear infinite;
+}
+.box div:nth-child(2){
+    top: 70%;
+    left: 50%;
+    animation: animate 7s linear infinite;
+}
+.box div:nth-child(3){
+    top: 17%;
+    left: 6%;
+    animation: animate 9s linear infinite;
+}
+.box div:nth-child(4){
+    top: 20%;
+    left: 60%;
+    animation: animate 10s linear infinite;
+}
+.box div:nth-child(5){
+    top: 67%;
+    left: 10%;
+    animation: animate 6s linear infinite;
+}
+.box div:nth-child(6){
+    top: 80%;
+    left: 70%;
+    animation: animate 12s linear infinite;
+}
+.box div:nth-child(7){
+    top: 60%;
+    left: 80%;
+    animation: animate 15s linear infinite;
+}
+.box div:nth-child(8){
+    top: 32%;
+    left: 25%;
+    animation: animate 16s linear infinite;
+}
+.box div:nth-child(9){
+    top: 90%;
+    left: 25%;
+    animation: animate 9s linear infinite;
+}
+.box div:nth-child(10){
+    top: 32%;
+    left: 25%;
+    animation: animate 16s linear infinite;
+}
+.box div:nth-child(11){
+    top: 12%;
+    left: 82%;
+    animation: animate 16s linear infinite;
+}
+@keyframes animate {
+    0%{
+        transform: scale(0) translateY(0) rotate(0);
+        opacity: 1;
+    }
+    100%{
+        transform: scale(1.3) translateY(-90px) rotate(360deg);
+        opacity: 1;
+    }
+
+}
+/*Rmove some of height to get more center*/
+/*the log in form */
+.LoginForm-wrapper{
+    height: calc(100vh - 200px);
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    padding: 60px 40px 40px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+}
+
+.form::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255,255,255,0.08);
+    transform: skewX(-28deg);
+    transform-origin: bottom right;
+    border-radius: 10px;
+    pointer-events: none;
+}
+.form h2{
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    color: rgb(248, 177, 8);
+}
+.form .input-group{
+    position: relative;
+}
+.form .input-group input{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+}
+.form .input-group label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: .3s ease-out;
+}
+.form .input-group input:focus + label,
+.form .input-group input:valid + label{
+    transform: translateY(-18px);
+    color: rgb(248, 177, 8);
+    font-size: .8rem;
+
+}
+.submit-btn{
+    display: block;
+    margin-left: auto;
+    border: none;
+    outline: none;
+    background: rgb(248, 177, 8);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.forgot-pw{
+    color: inherit;
+}
+
+#forgot-pw{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    z-index: 1;
+    background: rgb(248, 177, 8);
+    opacity: 0;
+    transition: 0.6s;
+}
+#forgot-pw:target{
+    height: 100%;
+    opacity: 1;
+}
+.close{
+    position: absolute;
+    right: 1.5rem;
+    top: 0.5rem;
+    font-size: 2rem;
+    font-weight: 900;
+    text-decoration: none;
+    color: inherit;
+}

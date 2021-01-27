@@ -5,6 +5,9 @@ import LoginPage from "./LogInPage/LoginPage";
 import './App.css';
 //import user from "./LogInPage/User";
 import Header from './Header/Header.js';
+import AddItemPage from './AddItemPage/AddItemPage'
+import TablePage from "./MonthPage/TablePage";
+
 class App extends Component{
   render(){
 
@@ -20,6 +23,14 @@ class App extends Component{
             <Route
                 exact path="/home"
                 render={() => <HomePage/>}
+            />
+            <Route
+                exact path="/addItem"
+                render={() => <AddItemPage/>}
+            />
+            <Route
+                exact path="/table"
+                render={() => <TablePage/>}
             />
 
         </div>

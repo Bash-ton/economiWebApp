@@ -17,7 +17,11 @@ from this directory using bash
 //all npm installs:
 *router
 *react redux
-*thunk
+*redux-thunk
 *firebase tools
 *react-redux-firebase
 *react-redux-firestore
+
+//uncertenties
+*database.rules.json //just copy rules from previous work
+*firebase.json	//just copy rules from previous work
