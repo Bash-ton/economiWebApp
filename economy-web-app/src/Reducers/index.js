@@ -3,10 +3,11 @@
 //import all reducers
 import isLoggedReducer from './IsLoggedIn'
 import { combineReducers } from 'redux'
-import { firestoreReducer } from "redux-firestore";
+
 import { firebaseReducer } from "react-redux-firebase";
 import authReducer from "./authReducer";
 import ItemReducer from "./ItemReducer";
+import groupReducer from "./groupReducer";
 
 
 
@@ -15,6 +16,7 @@ const allReducers = combineReducers({
     auth: authReducer,
     firebase: firebaseReducer,
     items: ItemReducer,
+    currentGroup: groupReducer,
 
 });
 

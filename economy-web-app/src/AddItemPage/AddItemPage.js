@@ -5,6 +5,8 @@ import './AddItemPage.css';
 import {useDispatch, useSelector} from "react-redux";
 //actions
 import { createItem } from "../Actions/itemActions";
+import { createGroup } from "../Actions/addGroupActions";
+import {useFirestoreConnect} from "react-redux-firebase";
 
 
 const AddItemPage = () => {
@@ -24,6 +26,8 @@ const AddItemPage = () => {
     }, [isLogged])
 
  */
+
+
 
     //handle inputs functions
     //number of items
@@ -71,24 +75,10 @@ const AddItemPage = () => {
         setItemName(event.target.value);
     };
 
-    //button test
-    const [db, setDB] = useState(() => {
-        return "";
-    });
+
     const addItemToDB = () => {
         if(!((store === "") || (itemName === "") || (price === 0) || (category === "Category"))){
 
-            let date = new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
-
-    /*        //update DB with dynamic date
-            dispatch(createItem({ [date] : {
-                store: store,
-                price: price,
-                name: itemName,
-                category: category
-            }}));
-
-     */
             dispatch(createItem({store: store, price: price, name: itemName, category: category}));
 
         }else{
@@ -131,8 +121,6 @@ const AddItemPage = () => {
                         <label htmlFor="loginPassword">Number of items</label>
                     </div>
                     <button className="submit-btn" onClick={() => {addItemToDB()}}>Add item</button>
-
-
                 </div>
             </div>
 

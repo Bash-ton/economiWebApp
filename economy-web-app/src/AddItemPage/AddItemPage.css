@@ -114,5 +114,11 @@
     font-size: .8rem;
 
 }
+.hidePassword{
+    display: none;
+}
+.hidePassword-btn{
+    display: none;
+}
 
 

@@ -6,6 +6,7 @@ const initState = {
 //TODO change alert here to red informative text on LoginPage insted
 const authReducer = (state = initState, action) => {
 
+
     switch (action.type){
         case 'LOGIN_ERROR':
             if(action.err.code === 'auth/invalid-email'){

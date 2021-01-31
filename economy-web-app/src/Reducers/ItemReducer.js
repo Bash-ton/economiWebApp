@@ -1,7 +1,6 @@
 const initState = {
     items: [
-        {store: "123", price: "123", name: "qwe", category: "Food"},
-        {store: "asd", price: "12", name: "sdq", category: "Food"},
+        {store: "-", price: "-", name: "-", category: "-"},
     ]
 }
 
@@ -13,6 +12,12 @@ const ItemReducer = (state = initState, action) => {
         case 'ADD_ITEM_ERROR':
             console.log('add item error', action.err);
             return state;
+        case 'READ_ITEMS':
+            console.log('read item', action.item);
+            return {
+                ...state,
+                items: action.item.items,
+            };
         default:
             return state;
     }

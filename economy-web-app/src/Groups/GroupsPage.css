@@ -1,0 +1,29 @@
+.hidePassword{
+    display: none;
+}
+.hidePassword-btn{
+    display: none;
+}
+
+.hideGroupName{
+    display: none;
+}
+
+.hideGroupName-btn{
+    display: none;
+}
+.hideConfirmJoinGroup-btn{
+    display: none;
+}
+.hideJoinGroupInput{
+    display: none;
+}
+.hideGroupInput-btn{
+    display: none;
+}
+.hideJoinGroupName{
+    display: none;
+}
+.hideJoinGroupPassword{
+    display: none;
+}

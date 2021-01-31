@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
-import {Route} from "react-router-dom"
+import { Route } from "react-router-dom"
 import HomePage from './HomePage/HomePage.js';
 import LoginPage from "./LogInPage/LoginPage";
 import './App.css';
-//import user from "./LogInPage/User";
+
 import Header from './Header/Header.js';
 import AddItemPage from './AddItemPage/AddItemPage'
 import TablePage from "./MonthPage/TablePage";
+import Groups from './Groups/GroupsPage';
 
 class App extends Component{
   render(){
@@ -31,6 +32,10 @@ class App extends Component{
             <Route
                 exact path="/table"
                 render={() => <TablePage/>}
+            />
+            <Route
+                exact path="/groups"
+                render={() => <Groups/>}
             />
 
         </div>
