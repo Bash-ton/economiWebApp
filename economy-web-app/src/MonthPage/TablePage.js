@@ -4,8 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 //listener for DB
 
 import {readItems} from "../Actions/getItemsActions";
-import {useState} from "react/cjs/react.production.min";
-
+import './TablePage.css'
 
 const TablePage = () => {
     //tests
@@ -22,6 +21,9 @@ const TablePage = () => {
 
     //selectors
     const items = useSelector(state => state.items);
+    const currentGroupID = useSelector(state => state.currentGroup.currentGroupPassword)
+    console.log(currentGroupID)
+
 
     //event handlers
     const changeMonth = (event) => {
@@ -30,20 +32,28 @@ const TablePage = () => {
         year = document.querySelector("#year").value;
         month = event.target.value
 
-        dispatch(readItems(year + "-" + month))
+        dispatch(readItems((year + "-" + month), currentGroupID))
     }
 
     const changeYear = (event) => {
         month = document.querySelector("#month").value;
         year = event.target.value
 
-        dispatch(readItems(year + "-" + month))
+        dispatch(readItems((year + "-" + month), currentGroupID))
     }
+    const setOptionsUpToDate = () => {
+        let option = document.querySelector("#month").options;
+        option.selectedIndex = month - 1;
+        option = document.querySelector("#year").options;
+        option.selectedIndex = year - 2020;
 
+    }
 
     //lifecycle methods
     useEffect(() => {
-        dispatch(readItems(year + "-" + month))
+        console.log(currentGroupID);
+        setOptionsUpToDate();
+        dispatch(readItems((year + "-" + month), currentGroupID))
     }, [])
 
 
@@ -52,7 +62,7 @@ const TablePage = () => {
 
     //render
     return(
-        <div className="dashboard container">
+        <div className="TablePage-wrapper">
             <div className="row">
                 <select type="text" className="options-categories" autoComplete="off" id="month"  onChange={(event) => {changeMonth(event)}} required >
                     <option value="1">january</option>
@@ -69,8 +79,8 @@ const TablePage = () => {
                     <option value="12">december</option>
                 </select>
                 <select type="text" className="options-categories" autoComplete="off" id="year"  onChange={(event) => {changeYear(event)}} required >
-                    <option value="2021">2021</option>
                     <option value="2020">2020</option>
+                    <option value="2021">2021</option>
                 </select>
                 <div className="col s12 m6">
                     {items ?

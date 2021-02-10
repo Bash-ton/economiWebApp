@@ -1,6 +1,6 @@
 import React from "react";
 
-const ItemElement = ({item}) => {
+const GroupElement = ({item}) => {
     return(
         <tr className="card z-depth-0 item-summery" key={item.id}>
             <td className="card-title">{item.store}</td>
@@ -13,4 +13,4 @@ const ItemElement = ({item}) => {
     )
 }
 
-export default ItemElement;
+export default GroupElement;

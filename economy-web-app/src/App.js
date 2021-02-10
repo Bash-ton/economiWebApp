@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import { Route } from "react-router-dom"
-import HomePage from './HomePage/HomePage.js';
 import LoginPage from "./LogInPage/LoginPage";
 import './App.css';
 
@@ -8,6 +7,7 @@ import Header from './Header/Header.js';
 import AddItemPage from './AddItemPage/AddItemPage'
 import TablePage from "./MonthPage/TablePage";
 import Groups from './Groups/GroupsPage';
+import ChartsPage from "./MonthPage/ChartsPage";
 
 class App extends Component{
   render(){
@@ -22,8 +22,8 @@ class App extends Component{
                 render={() => <LoginPage/>}
             />
             <Route
-                exact path="/home"
-                render={() => <HomePage/>}
+                exact path="/charts"
+                render={() => <ChartsPage/>}
             />
             <Route
                 exact path="/addItem"

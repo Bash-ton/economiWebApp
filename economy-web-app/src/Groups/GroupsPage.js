@@ -1,15 +1,27 @@
 import {useDispatch, useSelector} from "react-redux";
 import {createGroup, joinGroup} from "../Actions/addGroupActions";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './GroupsPage.css';
+import GroupList from "./GroupList";
 
+import {getMyGroupsInfo} from "../Actions/myGroupsActions";
+
+//TODO redundant code
 const GroupsPage = () => {
+
+    //getMyGroupNames
     //dispatch
     const dispatch = useDispatch();
-
+    
     //selectors
     const passwordGroup = useSelector(state => state.currentGroup.currentGroupPassword)
     const nameGroup = useSelector(state => state.currentGroup.currentGroupName)
+    const user = useSelector(state => state.firebase.auth.email);
+    const group1 = useSelector(state => state.currentGroup.myGroups1);
+    const group2 = useSelector(state => state.currentGroup.myGroups2);
+    const group3 = useSelector(state => state.currentGroup.myGroups3);
+    const group4 = useSelector(state => state.currentGroup.myGroups4);
+
 
     //lifecycle methods
     const [newGroupName, setNewGroupName] = useState(() => {
@@ -98,6 +110,9 @@ const GroupsPage = () => {
 
 
 
+    useEffect(()=>{
+        dispatch(getMyGroupsInfo(user))
+    }, [])
 
     return (
         <div className="groupPage-wrapper">
@@ -113,6 +128,7 @@ const GroupsPage = () => {
             <button className="showGroupName-btn" onClick={() => {enableGroupHandler()}}>Create new group</button>
 
 
+
             <div className="hideJoinGroupName">
                 <input type="text" name="loginPassword" id="joinGroupName" onChange={(event) => {joinGroupNameHandler(event)}} required  ></input>
                 <label htmlFor="loginUser">Group Name</label>
@@ -121,9 +137,12 @@ const GroupsPage = () => {
                 <input type="text" name="loginPassword" id="joinGroupPassword" onChange={(event) => {joinGroupPasswordHandler(event)}} required  ></input>
                 <label htmlFor="loginUser">Group Password</label>
             </div>
-            <button className="showGroupInput-btn" onClick={() => {enableJoinGroupHandler()}}>Join a group</button>
+            <button className="showGroupInput-btn" onClick={() => {enableJoinGroupHandler()}}>Join a new group</button>
             <button className="hideConfirmJoinGroup-btn" onClick={() => {joinGroupHandler()}}>Connect to this group</button>
-
+            {group1 ?<GroupList group={group1}/> : ""}<br/>
+            {group2 ?<GroupList group={group2}/> : ""}<br/>
+            {group3 ?<GroupList group={group3}/> : ""}<br/>
+            {group4 ?<GroupList group={group4}/> : ""}<br/>
         </div>
     );
 }

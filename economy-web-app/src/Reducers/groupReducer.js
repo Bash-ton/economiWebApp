@@ -1,7 +1,6 @@
 const initState = {
-    items: [
-        {store: "123", price: "123", name: "qwe", category: "Food"},
-        {store: "asd", price: "12", name: "sdq", category: "Food"},
+    item: [
+        {groupName: "-"}, {member: "-"}, {member: "-"}, {member: "-"},{ member: "-"}
     ]
 }
 
@@ -20,6 +19,32 @@ const groupReducer = (state = initState, action) => {
         case 'CREATE_GROUP_ERROR':
             console.log('created group error', action.err);
             return state;
+        case 'JOINED_GROUP':
+            return {
+                ...state,
+                currentGroupName: action.item,
+                currentGroupPassword: action.password
+            };
+        case 'READ_MY_GROUPS_INFO_1':
+            return {
+                ...state,
+                myGroups1: action.item
+            }
+        case 'READ_MY_GROUPS_INFO_2':
+            return {
+                ...state,
+                myGroups2: action.item
+            }
+        case 'READ_MY_GROUPS_INFO_3':
+            return {
+                ...state,
+                myGroups3: action.item
+            }
+        case 'READ_MY_GROUPS_INFO_4':
+            return {
+                ...state,
+                myGroups4: action.item
+            }
         default:
             return state;
     }

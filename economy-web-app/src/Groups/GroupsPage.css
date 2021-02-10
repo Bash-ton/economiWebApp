@@ -27,3 +27,9 @@
 .hideJoinGroupPassword{
     display: none;
 }
+.showPassword{
+    background-color: white;
+}
+.currentGroupName{
+    background-color: white;
+}

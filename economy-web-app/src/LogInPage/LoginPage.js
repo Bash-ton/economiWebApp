@@ -37,9 +37,7 @@ const LoginPage = () => {
     //"variable "isLogged" did update"
     useEffect(() => {
         if(isLogged === true){
-            console.log("inne");
-            window.location = '/home';
-
+            window.location = '/charts';
         }
     }, [isLogged])
 

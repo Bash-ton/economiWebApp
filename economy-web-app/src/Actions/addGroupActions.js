@@ -1,11 +1,12 @@
-//DONE
-//TODO clean function
+
+//TODO clean function redundant code
 //TODO alert or somehow show user feedback
+//TODO call reducers?
 export const createGroup = (groupInfo) => {
     //takes groupInfo(name, password)
     return (dispatch, getState, { getFirebase, getFirestore }) => {
 
-        console.log(groupInfo);
+
         //make async call to db
         const firestore = getFirestore();
         const firebase = getFirebase();
@@ -15,7 +16,7 @@ export const createGroup = (groupInfo) => {
         let user = firebase.auth().currentUser.email;
         let groupName = groupInfo.name;
 
-        //change to states insted
+
         let fullGroup = true;
         let emptyGroupPosition = 1;
         let noPreviousGroups = false;
@@ -37,7 +38,7 @@ export const createGroup = (groupInfo) => {
                         let i;
                         for (i = 1; i < 5; i++) { //find space for new group
                             let spot = "group" + i;
-                            if (doc.data().[spot].length > 0) {
+                            if (doc.data()[spot].length > 0) {
                                 emptyGroupPosition++;
                             }else{ //found spot then break
                                 fullGroup = false;
@@ -99,14 +100,18 @@ export const createGroup = (groupInfo) => {
                                     group4:"",
                                 });
                             }
+
+
                         }
                     })
             });
     }
 };
 
-//TODO NOT WORKING RIGHT NOW
-//TODO its now not adding anything
+
+//TODO redundant code
+//TODO alert or somehow show user feedback
+//TODO call reducers
 export const joinGroup = (groupInfo) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firestore = getFirestore();
@@ -116,25 +121,32 @@ export const joinGroup = (groupInfo) => {
         let password = groupInfo.password;
         let groupName = groupInfo.name;
 
+        let fullMyGroup = true;
         let fullGroup = true;
         let emptyGroupPosition = 1;
         let noPreviousGroups = false;
+        let freeGroupSpot = 0;
+        let validPass = false;
+        let alreadyExistAsUser = false;
 
-        //first check if group list is full
+
+        //check if user has space left for groups 1
         firestore.collection("MyGroups").where("user", "==", user).get().then(
             snapshot => {
-                if(snapshot.empty){
-                    fullGroup = false;
+                if (snapshot.empty) {
+                    fullMyGroup = false;
                     noPreviousGroups = true;
-                }else{
+                    console.log("group list is empty")
+                } else {
                     snapshot.forEach(doc => {
                         console.log(doc.data());
                         let i;
                         for (i = 1; i < 5; i++) { //find space for new group
                             let spot = "group" + i;
-                            if (doc.data().[spot].length > 0) {
+                            if (doc.data()[spot].length > 0) {
                                 emptyGroupPosition++;
-                            }else{ //found spot then break
+                            } else { //found spot then break
+                                fullMyGroup = false;
                                 break;
                             }
 
@@ -143,51 +155,81 @@ export const joinGroup = (groupInfo) => {
                     });
 
                 }
-            }
 
-        );
+                //check if group has space 2
+                if(fullMyGroup === false){
+                    console.log("I have space")
+                    firestore.collection("Groups").where("name", "==", groupName).get().then(
+                        snap => {
+                            if(snap.empty){
+                                console.log("group does not exist!");
+                            }else{
+                                snap.forEach(doc => {
+                                    let i;
+                                    for(i = 1; i<5; i++){
+                                        let spot = "user" + i;
+                                        console.log(spot)
+                                        if(doc.data()[spot].length === 0){
+                                            console.log("group has space!")
+                                            fullGroup = false
+                                            freeGroupSpot = i;
+                                            console.log(freeGroupSpot)
 
-
-        if(!fullGroup) {
-            firestore.collection("Groups").where("name", "==", groupName).get().then(
-                snapshot => {
-                    let matchingPassword = false;
-                    let alreadyInGroup = false;
-                    if (snapshot.empty) {//no group name
-                        console.log("not exist");
-                    } else {//password?
-                        snapshot.forEach(doc => {
-                            console.log(doc.id, "=>", doc.data())
-                            if (password === doc.id) {//correct password
-                                matchingPassword = true;
-                                let i;
-                                for (i = 1; i < 5; i++) {
-                                    let spot = "user" + i;
-                                    if (doc.data().[spot].length > 0) {
-                                        console.log("no");
-                                        if (doc.data().[spot] === user) {
-                                            alreadyInGroup = true;
-                                            console.log("already in group")
-                                            break;
+                                            break
                                         }
-                                        console.log(doc.data().[spot]);
-                                    } else {//join group unless already in group or already have 4 groups
-                                        if (!alreadyInGroup) {
+                                    }
 
-                                            //join group
-                                            firestore.collection("Groups").doc(password).update({
-                                                [spot]: user
-                                            });
-                                            console.log("joined group")
-                                            //update DB mygroups or create if new
+                                })
+                            }
+                            console.log(freeGroupSpot)
+
+                            //check valid pass 3
+                            //already exist here 4
+                            if(fullGroup === false){
+                                snap.forEach(doc => {
+                                    if(password === doc.id){
+                                        let i;
+                                        let spot;
+                                        for(i=1; i<5; i++){
+                                            spot = "user" + i;
+                                            if(doc.data()[spot] === user){
+                                                alreadyExistAsUser = true;
+                                                console.log("already here")
+                                            }
+                                        }
+                                        validPass = true;
+                                        console.log("correct password")
+
+                                        if(alreadyExistAsUser === false){
+                                            //update/join groups 5
+                                            snap.forEach(doc=>{
+                                                console.log(doc.id)
+                                                let spot = "user" + freeGroupSpot;
+                                                console.log(spot)
+                                                console.log(freeGroupSpot);
+
+                                                firestore.collection("Groups").doc(doc.id).update({
+                                                    [spot]: user
+                                                }).then(//call reducers
+                                                    dispatch({type: 'JOINED_GROUP', item: groupName, password: doc.id})
+                                                );
+                                            })
+
+                                            //6
                                             //update my groups or create
-                                            if(!noPreviousGroups) {//update
+                                            if(noPreviousGroups === false) {//update
+                                                console.log("already has group")
                                                 //join group
                                                 let spot = "group" + emptyGroupPosition;
-                                                firestore.collection("MyGroups").update({
-                                                    [spot]: groupName
+                                                console.log("spot: " + spot)
+                                                snapshot.forEach(doc => {
+                                                    console.log(doc.id)
+                                                    firestore.collection("MyGroups").doc(doc.id).update({
+                                                        [spot]: groupName
+                                                    });
                                                 });
                                             }else{//create
+                                                console.log("new group creation")
                                                 firestore.collection("MyGroups").add({
                                                     user: user,
                                                     group1: groupName,
@@ -196,27 +238,19 @@ export const joinGroup = (groupInfo) => {
                                                     group4:"",
                                                 });
                                             }
-
-                                            //update store
-                                            console.log(doc.data().[spot]);
-                                            break;
                                         }
 
 
+                                    }else{
+                                        console.log("wrong password")
                                     }
-                                }
 
-                            } else {//wrong password
-                                console.log("wrong password")
+                                })
                             }
-                        });
-
-                    }
+                        }
+                    )
                 }
-            );
-        }
-
-
+            })
 
     }
 

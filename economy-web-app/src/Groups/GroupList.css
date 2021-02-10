@@ -1,0 +1,36 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.list-header{
+    float: left;
+}
+.totalMembers{
+    position: absolute;
+    right: 2px;
+    top: 20px;
+    opacity: 0;
+}
+thead:hover .totalMembers{
+    opacity: 1;
+}
+.groupPage-wrapper{
+    height: calc(100vh - 94px);
+}
+.content-table{
+    position: relative;
+    margin:  auto;
+
+
+}
+.activeGroup-btn{
+    position: absolute;
+    right: 0;
+}
+.activeGroup-btn:hover{
+    cursor: pointer;
+}
+
+.groupPage-wrapper{
+    background: linear-gradient(90deg, rgba(2,0,.6,1) 0%, rgb(121, 9, 26) 35%, rgb(203, 99, 99) 100%);
+}

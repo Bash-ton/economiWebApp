@@ -4,7 +4,7 @@ import './Header.css';
 import { signOut } from '../Actions/authActions'
 //redux
 import {useDispatch, useSelector} from 'react-redux'
-import authReducer from "../Reducers/authReducer";
+
 
 const Header = () => {
 
@@ -16,14 +16,14 @@ const Header = () => {
     return(
 
         <div className="header-border">
-
-            <div>LOGO</div>
-            <div>Empty space</div>
-            <div>Button/link</div>
-            <div>Button/link</div>
-            <div>Button/link</div>
-
-            {isLogged ? <button onClick={() => {dispatch(signOut())}}>Log Out</button>: ""}
+            <ul className="nav">
+                <li><a href="/charts">LOGO</a></li>
+                <li><a href="/addItem">Add Item</a></li>
+                <li><a href="/groups">Groups</a></li>
+                <li><a href="/charts">Charts</a></li>
+                <li><a href="/table">Items</a></li>
+                {isLogged ? <div className="logout-btn-wrapper"><button className="logOut-btn" onClick={() => {dispatch(signOut())}}>Log Out</button></div>: ""}
+            </ul>
         </div>
 
 

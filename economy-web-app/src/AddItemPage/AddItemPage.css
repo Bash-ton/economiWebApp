@@ -41,7 +41,7 @@
 .AddItemPage-wrapper{
     position: absolute;
     width: 100%;
-    height: calc(100vh - 107px);
+    height: calc(100% );
     overflow: hidden;
     background: linear-gradient(90deg, rgba(2,0,.6,1) 0%, rgb(121, 9, 26) 35%, rgb(203, 99, 99) 100%);
     display: flex;

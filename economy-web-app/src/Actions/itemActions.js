@@ -1,7 +1,6 @@
-export const createItem = (item) => {
+export const createItem = (item, id) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
-        console.log("action start");
-        console.log(item);
+
         //make async call to db
         const firestore = getFirestore();
         const firebase = getFirebase();
@@ -11,7 +10,8 @@ export const createItem = (item) => {
         let user = firebase.auth().currentUser.email;
         let date = new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
         console.log(firebase.auth().currentUser);
-        firestore.collection(date).add({
+
+        firestore.collection("Items/" + date + "/" + id.groupID).add({
             ...item,
             user: user
         }).then(() => {
@@ -20,5 +20,35 @@ export const createItem = (item) => {
             dispatch({ type: 'ADD_ITEM_ERROR', err});
         });
 
+
+        //get money path for this group
+        firestore.collection("Money/" + date + "/" + id.groupID).get().then(
+            snap => {
+
+
+                if(snap.empty){//if money group does not exist yet, create it first
+                   firestore.collection("Money/" + date + "/" + id.groupID).add({
+                        totalAmount: 0,
+                        Food: 0,
+                        RarelyBoughtItems:0,
+                        Detergent:0,
+                        Hygiene:0,
+                        Storage:0,
+                        Entertainment:0,
+                    })
+                }
+                //update the money group
+                firestore.collection("Money/" + date + "/" + id.groupID).get().then(
+                    snap2 => {
+                        let newID = snap2.docs[0].id
+                        firestore.collection("Money/" + date + "/" + id.groupID).doc(newID).update({
+                            totalAmount: firebase.firestore.FieldValue.increment(item.price),
+                            [item.category]: firebase.firestore.FieldValue.increment(item.price),
+                            [user]: firebase.firestore.FieldValue.increment(item.price),
+                        })
+                    }
+                )
+            }
+        )
     }
 };
