@@ -8,6 +8,8 @@ import { firebaseReducer } from "react-redux-firebase";
 import authReducer from "./authReducer";
 import ItemReducer from "./ItemReducer";
 import groupReducer from "./groupReducer";
+import moneyReducer from "./moneyReducer"
+import ColorReducer from "./colorReducer";
 
 
 
@@ -17,6 +19,9 @@ const allReducers = combineReducers({
     firebase: firebaseReducer,
     items: ItemReducer,
     currentGroup: groupReducer,
+    moneyInfo: moneyReducer,
+    currentColors: ColorReducer
+
 
 });
 

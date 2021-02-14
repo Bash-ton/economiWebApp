@@ -39,12 +39,15 @@ export const createItem = (item, id) => {
                 }
                 //update the money group
                 firestore.collection("Money/" + date + "/" + id.groupID).get().then(
+
+
                     snap2 => {
+                        console.log( user.split(".").join(""));
                         let newID = snap2.docs[0].id
                         firestore.collection("Money/" + date + "/" + id.groupID).doc(newID).update({
                             totalAmount: firebase.firestore.FieldValue.increment(item.price),
                             [item.category]: firebase.firestore.FieldValue.increment(item.price),
-                            [user]: firebase.firestore.FieldValue.increment(item.price),
+                            [user.split(".").join("")]: firebase.firestore.FieldValue.increment(item.price),
                         })
                     }
                 )
