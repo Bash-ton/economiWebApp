@@ -1,15 +1,17 @@
 //TODO show money per user. (handle how to check the number of users (maybe length - 7))
 //TODO remove const user (not used)
 //TODO use groupMembers to get group
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 //import css here
 //redux import reducer
-import {useDispatch, useSelector} from "react-redux";
-import {PieChart} from 'react-minimal-pie-chart';
+import { useDispatch, useSelector } from "react-redux";
+import { PieChart } from 'react-minimal-pie-chart';
 import './ChartsPage.css';
-import {changeCurrentGroup} from "../Actions/myGroupsActions";
-import {readItems} from "../Actions/getItemsActions";
-import {getMoneyInfo} from "../Actions/getMoneyInfoActions";
+import { changeCurrentGroup } from "../Actions/myGroupsActions";
+import { getMoneyInfo } from "../Actions/getMoneyInfoActions";
+
+import { GithubPicker  } from 'react-color';
+import {updateColors} from "../Actions/colorActions";
 
 //function instead of class to use hooks
 const ChartsPage = () => {
@@ -20,7 +22,6 @@ const ChartsPage = () => {
 
     const currentGroupID = useSelector(state => state.currentGroup.currentGroupPassword)
     const currentGroupName = useSelector(state => state.currentGroup.currentGroupName)
-    const user = useSelector(state => state.firebase.auth.email);
     const group1 = useSelector(state => state.currentGroup.myGroups1[0].groupName)
     const group2 = useSelector(state => state.currentGroup.myGroups2[0].groupName)
     const group3 = useSelector(state => state.currentGroup.myGroups3[0].groupName)
@@ -33,6 +34,8 @@ const ChartsPage = () => {
 
     const colors = useSelector(state => state.currentColors);
     const moneyInfo = useSelector(state => state.moneyInfo)
+
+    const state = useSelector(state => state);
 
     //event handlers
     const changeMonth = (event) => {
@@ -50,11 +53,68 @@ const ChartsPage = () => {
 
         getMoneyInfoHandler();
     }
+    const [currentColorID, setCurrentColorID] = useState({});
+
+
+    const [colorDisplay, setColorDisplay] = useState(false);
+
+    const showColorOptions = (val) => {
+
+        let id = val.target.id;
+
+        if(currentColorID.id === id){
+            setColorDisplay(!colorDisplay);
+        }else{
+            setColorDisplay(true);
+        }
+
+        let position = 0;
+
+        console.log(val.target.id)
+
+        switch (val.target.id){
+            case "Food":
+                position = 0;
+                break
+            case "Entertainment":
+                position = 1;
+                break
+            case "Hygiene":
+                position = 2;
+                break
+            case "Detergent":
+                position = 3;
+                break
+            case "RarelyBoughtItems":
+                position = 4;
+                break
+            default:
+                position = 5;
+
+        }
+        console.log(position)
+
+        console.log(colors.colors[position][id])
+       setCurrentColorID({id: id, position: position})
+
+    }
+
+
+    const changeColorOptions = (val) => {
+        let hexCol = rgbToHex(val.rgb.r, val.rgb.g, val.rgb.b)
+        let newColors = colors;
+        newColors.colors[currentColorID.position][currentColorID.id] = hexCol;
+        dispatch(updateColors(newColors.colors))
+    }
+    const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
+
+
 
 
     const changeCurrentGroupHandler = (event) => {
         dispatch(changeCurrentGroup(event.target.value));
     }
+
 
     const setOptionsUpToDateGroup = () => {
         let option = document.querySelector("#groups").options;
@@ -105,7 +165,12 @@ const ChartsPage = () => {
         setOptionsUpToDateGroup();
 
         getMoneyInfoHandler();
-        setColorInfo();
+        if(colors.colors){
+            setColorInfo();
+        }
+
+        console.log(colors)
+
         console.log(moneyInfo)
     }, [])
 
@@ -118,18 +183,19 @@ const ChartsPage = () => {
 
     //probably remove currently only to check change in moneyInfo
     useEffect(() => {
-        if (moneyInfo.money[0]) {
-            console.log(moneyInfo.money[0].total)
-        } else {
-            console.log(moneyInfo)
-        }
-        console.log(colors.colors[0].Food)
+
+        console.log(state)
 
     }, [moneyInfo])
 
+    useEffect(() => {
+
+        setColorInfo();
+
+    }, [colors])
     return (
 
-        <div className="HomePage">
+        <div className="HomePage" >
             <select type="text" className="options-categories" autoComplete="off" id="month" onChange={(event) => {
                 changeMonth(event)
             }} required>
@@ -164,16 +230,16 @@ const ChartsPage = () => {
 
             <div className="chart-container">
                 {moneyInfo.money[0] ? <div className="Money-container">
-                    <div className="totalMOney">Total: {moneyInfo.money[0].total}</div>
+                    <div className="totalMoney">Total: {moneyInfo.money[0].total}</div>
                     <div className="food">Food: {moneyInfo.money[1].Food}</div>
-                    <div className="hygien">Hygien: {moneyInfo.money[3].Hygiene}</div>
+                    <div className="hygiene">Hygiene: {moneyInfo.money[3].Hygiene}</div>
                     <div className="detergent">Detergent: {moneyInfo.money[4].Detergent}</div>
                     <div className="RarelyBoughtItems">Rarely Bought Items: {moneyInfo.money[5].RarelyBoughtItems}</div>
                     <div className="storage">Storage: {moneyInfo.money[6].Storage}</div>
                     <div className="entertainment">Entertainment: {moneyInfo.money[2].Entertainment}</div>
                 </div> : ""}
                 <div className="pieChart-container">
-                    {moneyInfo.money[0] ?
+                    {moneyInfo.money[0] && colors.colors ?
                         <PieChart animate="true" style={{height: "400px"}} onMouseOver={(e, value) => {}}
                                   data={[
                                       {title: 'Food', value: moneyInfo.money[1].Food, color: colors.colors[0].Food},
@@ -186,38 +252,39 @@ const ChartsPage = () => {
                         /> : ""
                     }
                     <div className="labels">
+                        {colorDisplay ? <GithubPicker onChange={(evt) => {changeColorOptions(evt)}}/>:""}
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Food"></div>
+                            <div className="boxShape" id="Food" onClick={(val) => {showColorOptions(val)}}></div>
                             <br/>
                             <div className="chartLable" >Food</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="RarelyBoughtItems"></div>
+                            <div className="boxShape" id="RarelyBoughtItems" onClick={(val) => {showColorOptions(val)}}></div>
                             <br/>
                             <div className="chartLable" >RarelyBoughtItems</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Detergent"></div>
+                            <div className="boxShape" id="Detergent" onClick={(val) => {showColorOptions(val)}}></div>
                             <br/>
                             <div className="chartLable" >Detergent</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Hygiene"></div>
+                            <div className="boxShape" id="Hygiene" onClick={(val) => {showColorOptions(val)}}></div>
                             <br/>
                             <div className="chartLable" >Hygiene</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Storage"></div>
+                            <div className="boxShape" id="Storage" onClick={(val) => {showColorOptions(val)}}></div>
                             <br/>
                             <div className="chartLable" >Storage</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Entertainment"></div>
+                            <div className="boxShape" id="Entertainment" onClick={(val) => {showColorOptions(val)}}></div>
                             <br/>
                             <div className="chartLable" >Entertainment</div>
                             <br/>

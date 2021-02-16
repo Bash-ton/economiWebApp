@@ -1,16 +1,17 @@
 const initState = {
-    colors: [{Food: '#ffbd4b'}, {Entertainment: '#ff6f38'}, {Hygiene: '#0037ff'}, {Detergent: '#cb6363'}, {RarelyBoughtItems: '#fc0f2c'}, {Storage: '#61ff11'}]
+    colors: [{Food: '#fccb00'}, {Entertainment: '#db3e00'}, {Hygiene: '#004DCF'}, {Detergent: '#b80000'}, {RarelyBoughtItems: '#008B02'}, {Storage: '#5300EB'}]
 }
 
 
 const ColorReducer = (state = initState, action) => {
     console.log(action)
+
     switch (action.type) {
         case 'CHANGE_COLORS':
             console.log("added item", action.item)
             return  {
                 ...state,
-                colors: action.colors,
+                colors: action.item,
             };
         default:
             return state;

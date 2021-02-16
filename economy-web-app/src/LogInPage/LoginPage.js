@@ -37,7 +37,7 @@ const LoginPage = () => {
     //"variable "isLogged" did update"
     useEffect(() => {
         if(isLogged === true){
-            window.location = '/charts';
+            window.location = '/addItem';
         }
     }, [isLogged])
 
