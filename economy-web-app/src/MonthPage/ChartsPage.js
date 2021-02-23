@@ -20,6 +20,12 @@ const ChartsPage = () => {
     let year = new Date().getFullYear();
     let month = new Date().getMonth() + 1;
 
+    const groupCheck = useSelector(state => state.currentGroup)
+    if(groupCheck.currentGroupName === undefined ){
+        window.location = '/groups';
+        alert("Please create or join a group first")
+    }
+
     const currentGroupID = useSelector(state => state.currentGroup.currentGroupPassword)
     const currentGroupName = useSelector(state => state.currentGroup.currentGroupName)
     const group1 = useSelector(state => state.currentGroup.myGroups1[0].groupName)

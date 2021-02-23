@@ -111,6 +111,9 @@ const GroupsPage = () => {
 
 
     useEffect(()=>{
+       if(user === undefined){
+           window.location = "/"
+       }
         dispatch(getMyGroupsInfo(user))
     }, [])
 

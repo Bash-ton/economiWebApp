@@ -17,7 +17,7 @@ const LoginPage = () => {
 
     //hook on logged in or not
     const isLogged = useSelector(state => state.auth.isLogged);
-
+    const groupCheck = useSelector(state => state.currentGroup.currentGroupName)
 
     //update state and get email while typing
     const [email, setEmail] = useState("");
@@ -34,10 +34,17 @@ const LoginPage = () => {
         setPassword(event.target.value);
     };
 
-    //"variable "isLogged" did update"
+
+
+
     useEffect(() => {
-        if(isLogged === true){
+
+        if(isLogged === true && groupCheck !== undefined){
+            console.log(groupCheck)
+            debugger
             window.location = '/addItem';
+        }else if(isLogged === true){
+            window.location = '/groups';
         }
     }, [isLogged])
 
