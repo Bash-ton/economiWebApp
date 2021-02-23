@@ -34,3 +34,8 @@ thead:hover .totalMembers{
 .groupPage-wrapper{
     background: linear-gradient(90deg, rgba(2,0,.6,1) 0%, rgb(121, 9, 26) 35%, rgb(203, 99, 99) 100%);
 }
+.content-table thead .not-active{
+
+    background-color: #6e6666;
+
+}
