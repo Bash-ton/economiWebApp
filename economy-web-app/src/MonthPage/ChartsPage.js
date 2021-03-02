@@ -1,37 +1,39 @@
 //TODO show money per user. (handle how to check the number of users (maybe length - 7))
 //TODO remove const user (not used)
 //TODO use groupMembers to get group
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 //import css here
 //redux import reducer
-import { useDispatch, useSelector } from "react-redux";
-import { PieChart } from 'react-minimal-pie-chart';
+import {useDispatch, useSelector} from "react-redux";
+import {PieChart} from 'react-minimal-pie-chart';
 import './ChartsPage.css';
-import { changeCurrentGroup } from "../Actions/myGroupsActions";
-import { getMoneyInfo } from "../Actions/getMoneyInfoActions";
+import {changeCurrentGroup} from "../Actions/myGroupsActions";
+import {getMoneyInfo} from "../Actions/getMoneyInfoActions";
 
-import { GithubPicker  } from 'react-color';
+import {GithubPicker} from 'react-color';
 import {updateColors} from "../Actions/colorActions";
 
 //function instead of class to use hooks
 const ChartsPage = () => {
     const dispatch = useDispatch();
 
-    let year = new Date().getFullYear();
-    let month = new Date().getMonth() + 1;
-
+    //  let year = new Date().getFullYear();
+    //  let month = new Date().getMonth() + 1;
+    const [year, setYear] = useState(new Date().getFullYear())
+    const [month, setMonth] = useState(new Date().getMonth() + 1)
+    const isLogged = useSelector(state => state.auth.isLogged);
     const groupCheck = useSelector(state => state.currentGroup)
-    if(groupCheck.currentGroupName === undefined ){
+    if (groupCheck.currentGroupName === undefined && isLogged) {
         window.location = '/groups';
         alert("Please create or join a group first")
     }
 
     const currentGroupID = useSelector(state => state.currentGroup.currentGroupPassword)
     const currentGroupName = useSelector(state => state.currentGroup.currentGroupName)
-    const group1 = useSelector(state => state.currentGroup.myGroups1[0].groupName)
-    const group2 = useSelector(state => state.currentGroup.myGroups2[0].groupName)
-    const group3 = useSelector(state => state.currentGroup.myGroups3[0].groupName)
-    const group4 = useSelector(state => state.currentGroup.myGroups4[0].groupName)
+    const group1 = useSelector(state => state.currentGroup.myGroups1?.[0].groupName)
+    const group2 = useSelector(state => state.currentGroup.myGroups2?.[0].groupName)
+    const group3 = useSelector(state => state.currentGroup.myGroups3?.[0].groupName)
+    const group4 = useSelector(state => state.currentGroup.myGroups4?.[0].groupName)
 
     const groupMembers1 = useSelector(state => state.currentGroup.myGroups1);
     const groupMembers2 = useSelector(state => state.currentGroup.myGroups2);
@@ -46,16 +48,20 @@ const ChartsPage = () => {
     //event handlers
     const changeMonth = (event) => {
 
-        year = document.querySelector("#year").value;
-        month = event.target.value
+        // year = document.querySelector("#year").value;
+        setYear(document.querySelector("#year").value)
+        // month = event.target.value
+        setMonth(event.target.value);
 
         getMoneyInfoHandler();
     }
 
     const changeYear = (event) => {
-        month = document.querySelector("#month").value;
-        year = event.target.value
+        //   month = document.querySelector("#month").value;
+        //  year = event.target.value
 
+        setMonth(event.target.value);
+        setYear(document.querySelector("#year").value)
 
         getMoneyInfoHandler();
     }
@@ -68,9 +74,9 @@ const ChartsPage = () => {
 
         let id = val.target.id;
 
-        if(currentColorID.id === id){
+        if (currentColorID.id === id) {
             setColorDisplay(!colorDisplay);
-        }else{
+        } else {
             setColorDisplay(true);
         }
 
@@ -78,7 +84,7 @@ const ChartsPage = () => {
 
         console.log(val.target.id)
 
-        switch (val.target.id){
+        switch (val.target.id) {
             case "Food":
                 position = 0;
                 break
@@ -101,7 +107,7 @@ const ChartsPage = () => {
         console.log(position)
 
         console.log(colors.colors[position][id])
-       setCurrentColorID({id: id, position: position})
+        setCurrentColorID({id: id, position: position})
 
     }
 
@@ -113,8 +119,6 @@ const ChartsPage = () => {
         dispatch(updateColors(newColors.colors))
     }
     const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
-
-
 
 
     const changeCurrentGroupHandler = (event) => {
@@ -141,19 +145,63 @@ const ChartsPage = () => {
         option.selectedIndex = year - 2020;
 
     }
+    const [members, setMembers] = useState(0);
+    const membersHandler = () => {
+
+    }
 
     const getMoneyInfoHandler = () => {
 
         let date = (year + "-" + month);
-
+        let i = 1;
+        let arr = [];
         if (currentGroupName === groupMembers1[0].groupName) {
             dispatch(getMoneyInfo(currentGroupID, date, groupMembers1));
+
+            while (i < groupMembers1.length) {
+                arr.push(groupMembers1[i].member)
+                i++;
+                if (i === groupMembers1.length) {
+                    setMembers(arr);
+                    console.log(arr)
+                    console.log("************")
+                }
+            }
         } else if (currentGroupName === groupMembers2[0].groupName) {
             dispatch(getMoneyInfo(currentGroupID, date, groupMembers2));
+
+
+            while (i < groupMembers2.length) {
+                arr.push(groupMembers2[i].member)
+                i++;
+                if (i === groupMembers2.length) {
+                    setMembers(arr);
+                    console.log(arr)
+                    console.log("************")
+                }
+            }
         } else if (currentGroupName === groupMembers3[0].groupName) {
             dispatch(getMoneyInfo(currentGroupID, date, groupMembers3));
+            while (i < groupMembers3.length) {
+                arr.push(groupMembers3[i].member)
+                i++;
+                if (i === groupMembers3.length) {
+                    setMembers(arr);
+                    console.log(arr)
+                    console.log("************")
+                }
+            }
         } else {
             dispatch(getMoneyInfo(currentGroupID, date, groupMembers4));
+            while (i < groupMembers4.length) {
+                arr.push(groupMembers4[i].member)
+                i++;
+                if (i === groupMembers4.length) {
+                    setMembers(arr);
+                    console.log(arr)
+                    console.log("************")
+                }
+            }
         }
     }
 
@@ -167,11 +215,12 @@ const ChartsPage = () => {
     }
 
     useEffect(() => {
+        //changeCurrent members
         setOptionsUpToDate();
         setOptionsUpToDateGroup();
 
         getMoneyInfoHandler();
-        if(colors.colors){
+        if (colors.colors) {
             setColorInfo();
         }
 
@@ -181,7 +230,7 @@ const ChartsPage = () => {
     }, [])
 
     useEffect(() => {
-
+//changeCurrent members
         getMoneyInfoHandler();
         console.log(moneyInfo)
     }, [currentGroupName])
@@ -189,10 +238,16 @@ const ChartsPage = () => {
 
     //probably remove currently only to check change in moneyInfo
     useEffect(() => {
-
+//changeCurrent members
         console.log(state)
 
     }, [moneyInfo])
+
+    useEffect(() => {
+//change current members
+        getMoneyInfoHandler();
+
+    }, [year, month])
 
     useEffect(() => {
 
@@ -201,7 +256,7 @@ const ChartsPage = () => {
     }, [colors])
     return (
 
-        <div className="HomePage" >
+        <div className="HomePage">
             <select type="text" className="options-categories" autoComplete="off" id="month" onChange={(event) => {
                 changeMonth(event)
             }} required>
@@ -236,63 +291,107 @@ const ChartsPage = () => {
 
             <div className="chart-container">
                 {moneyInfo.money[0] ? <div className="Money-container">
-                    <div className="totalMoney">Total: {moneyInfo.money[0].total}</div>
-                    <div className="food">Food: {moneyInfo.money[1].Food}</div>
-                    <div className="hygiene">Hygiene: {moneyInfo.money[3].Hygiene}</div>
-                    <div className="detergent">Detergent: {moneyInfo.money[4].Detergent}</div>
-                    <div className="RarelyBoughtItems">Rarely Bought Items: {moneyInfo.money[5].RarelyBoughtItems}</div>
-                    <div className="storage">Storage: {moneyInfo.money[6].Storage}</div>
-                    <div className="entertainment">Entertainment: {moneyInfo.money[2].Entertainment}</div>
+                    <div className="totalMoney">Total: {moneyInfo.money[0].total} kr</div>
+                    <div className="food">Food: {moneyInfo.money[1].Food} kr</div>
+                    <div className="hygiene">Hygiene: {moneyInfo.money[3].Hygiene} kr</div>
+                    <div className="detergent">Detergent: {moneyInfo.money[4].Detergent} kr</div>
+                    <div className="RarelyBoughtItems">Rarely Bought Items: {moneyInfo.money[5].RarelyBoughtItems} kr</div>
+                    <div className="storage">Storage: {moneyInfo.money[6].Storage} kr</div>
+                    <div className="entertainment">Entertainment: {moneyInfo.money[2].Entertainment} kr</div>
+                    <div>{(members !== 0)?
+                        members.map((memb) => {
+                               return  <div>{memb}: {moneyInfo.money[7].FullData[memb.split(".").join("")] || 0} kr</div>
+                            }
+
+                        )
+                    :"asd"}</div>
+
+                    <div>{console.log(moneyInfo.money[7].FullData)}</div>
                 </div> : ""}
                 <div className="pieChart-container">
                     {moneyInfo.money[0] && colors.colors ?
-                        <PieChart animate="true" style={{height: "400px"}} onMouseOver={(e, value) => {}}
+                        <PieChart animate="true" style={{height: "400px"}} onMouseOver={(e, value) => {
+                        }}
                                   data={[
                                       {title: 'Food', value: moneyInfo.money[1].Food, color: colors.colors[0].Food},
-                                      {title: 'Rarely bought items', value: moneyInfo.money[5].RarelyBoughtItems, color: colors.colors[4].RarelyBoughtItems},
-                                      {title: 'Detergent', value: moneyInfo.money[4].Detergent, color: colors.colors[3].Detergent},
-                                      {title: 'Hygiene', value: moneyInfo.money[3].Hygiene, color: colors.colors[2].Hygiene},
-                                      {title: 'Storage', value: moneyInfo.money[6].Storage, color: colors.colors[5].Storage},
-                                      {title: 'Entertainment', value: moneyInfo.money[2].Entertainment, color: colors.colors[1].Entertainment},
+                                      {
+                                          title: 'Rarely bought items',
+                                          value: moneyInfo.money[5].RarelyBoughtItems,
+                                          color: colors.colors[4].RarelyBoughtItems
+                                      },
+                                      {
+                                          title: 'Detergent',
+                                          value: moneyInfo.money[4].Detergent,
+                                          color: colors.colors[3].Detergent
+                                      },
+                                      {
+                                          title: 'Hygiene',
+                                          value: moneyInfo.money[3].Hygiene,
+                                          color: colors.colors[2].Hygiene
+                                      },
+                                      {
+                                          title: 'Storage',
+                                          value: moneyInfo.money[6].Storage,
+                                          color: colors.colors[5].Storage
+                                      },
+                                      {
+                                          title: 'Entertainment',
+                                          value: moneyInfo.money[2].Entertainment,
+                                          color: colors.colors[1].Entertainment
+                                      },
                                   ]}
                         /> : ""
                     }
                     <div className="labels">
-                        {colorDisplay ? <GithubPicker onChange={(evt) => {changeColorOptions(evt)}}/>:""}
+                        {colorDisplay ? <GithubPicker onChange={(evt) => {
+                            changeColorOptions(evt)
+                        }}/> : ""}
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Food" onClick={(val) => {showColorOptions(val)}}></div>
+                            <div className="boxShape" id="Food" onClick={(val) => {
+                                showColorOptions(val)
+                            }}></div>
                             <br/>
-                            <div className="chartLable" >Food</div>
+                            <div className="chartLable">Food</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="RarelyBoughtItems" onClick={(val) => {showColorOptions(val)}}></div>
+                            <div className="boxShape" id="RarelyBoughtItems" onClick={(val) => {
+                                showColorOptions(val)
+                            }}></div>
                             <br/>
-                            <div className="chartLable" >RarelyBoughtItems</div>
-                            <br/>
-                        </div>
-                        <div className="labels-wrapper">
-                            <div className="boxShape" id="Detergent" onClick={(val) => {showColorOptions(val)}}></div>
-                            <br/>
-                            <div className="chartLable" >Detergent</div>
+                            <div className="chartLable">RarelyBoughtItems</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Hygiene" onClick={(val) => {showColorOptions(val)}}></div>
+                            <div className="boxShape" id="Detergent" onClick={(val) => {
+                                showColorOptions(val)
+                            }}></div>
                             <br/>
-                            <div className="chartLable" >Hygiene</div>
-                            <br/>
-                        </div>
-                        <div className="labels-wrapper">
-                            <div className="boxShape" id="Storage" onClick={(val) => {showColorOptions(val)}}></div>
-                            <br/>
-                            <div className="chartLable" >Storage</div>
+                            <div className="chartLable">Detergent</div>
                             <br/>
                         </div>
                         <div className="labels-wrapper">
-                            <div className="boxShape" id="Entertainment" onClick={(val) => {showColorOptions(val)}}></div>
+                            <div className="boxShape" id="Hygiene" onClick={(val) => {
+                                showColorOptions(val)
+                            }}></div>
                             <br/>
-                            <div className="chartLable" >Entertainment</div>
+                            <div className="chartLable">Hygiene</div>
+                            <br/>
+                        </div>
+                        <div className="labels-wrapper">
+                            <div className="boxShape" id="Storage" onClick={(val) => {
+                                showColorOptions(val)
+                            }}></div>
+                            <br/>
+                            <div className="chartLable">Storage</div>
+                            <br/>
+                        </div>
+                        <div className="labels-wrapper">
+                            <div className="boxShape" id="Entertainment" onClick={(val) => {
+                                showColorOptions(val)
+                            }}></div>
+                            <br/>
+                            <div className="chartLable">Entertainment</div>
                             <br/>
                         </div>
                     </div>

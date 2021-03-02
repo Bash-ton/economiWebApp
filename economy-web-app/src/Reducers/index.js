@@ -24,5 +24,34 @@ const allReducers = combineReducers({
 
 
 });
+/*
+const rootReducer = (state, action) => {
+    if (action.type === "RESET_STORE") {
+        const allReducers = combineReducers({
+        loggingReducer: undefined,
+            auth: undefined,
+            firebase: undefined,
+            items: undefined,
+            currentGroup: undefined,
+            moneyInfo: undefined,
+            currentColors: undefined
+        });
+        return allReducers;
+    }else{
+        const allReducers = combineReducers({
+            loggingReducer: isLoggedReducer,
+            auth: authReducer,
+            firebase: firebaseReducer,
+            items: ItemReducer,
+            currentGroup: groupReducer,
+            moneyInfo: moneyReducer,
+            currentColors: ColorReducer
+
+
+        });
+        return allReducers;
+    }
+
+}*/
 
 export default allReducers;

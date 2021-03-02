@@ -166,3 +166,18 @@ export const changeCurrentGroup = ( newGroupName ) => {
 
     }
 }
+
+//dispatch({type: 'CREATE_GROUP', item: groupName, password: newGroup.id});
+export const getPassword = ( groupName ) => {
+
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+
+        const firestore = getFirestore();
+
+        firestore.collection("Groups").where("name", "==", groupName).get().then( snapshot => {
+
+            dispatch({type: 'INVITE_PASSWORD', item: groupName, password: snapshot.docs[0].id});
+        })
+
+    }
+}

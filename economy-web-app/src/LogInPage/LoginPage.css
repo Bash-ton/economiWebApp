@@ -113,6 +113,7 @@
     border-radius: 10px;
     color: #fff;
     box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+    z-index: 1;
 }
 
 .form::before{
@@ -166,6 +167,7 @@
 
 }
 .submit-btn{
+
     display: block;
     margin-left: auto;
     border: none;
@@ -187,7 +189,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 0;
+    top: -110px;
     left: 0;
     right: 0;
     height: 0;
@@ -197,7 +199,10 @@
     transition: 0.6s;
 }
 #forgot-pw:target{
-    height: 100%;
+    top: 0;
+    height: 110%;
+
+
     opacity: 1;
 }
 .close{
@@ -208,4 +213,19 @@
     font-weight: 900;
     text-decoration: none;
     color: inherit;
+}
+@media screen and (max-width: 800px ){
+
+    .LoginPage-wrapper{
+        min-height:100%;
+        padding-top: 40px;
+    }
+    #forgot-pw:target{
+        height: 150%;
+        min-height:100vh;
+        display: block;
+        z-index: 4;
+        padding-top: 30%;
+
+    }
 }

@@ -16,7 +16,7 @@ export const getMoneyInfo = ( id, date, groupMembers ) => {
                    console.log(doc.data())
 
                    //get total money and categories
-                   moneyArray.push({total: doc.data().totalAmount}, {Food: doc.data().Food}, {Entertainment: doc.data().Entertainment}, {Hygiene: doc.data().Hygiene}, {Detergent: doc.data().Detergent}, {RarelyBoughtItems: doc.data().RarelyBoughtItems}, {Storage: doc.data().Storage});
+                   moneyArray.push({total: doc.data().totalAmount}, {Food: doc.data().Food}, {Entertainment: doc.data().Entertainment}, {Hygiene: doc.data().Hygiene}, {Detergent: doc.data().Detergent}, {RarelyBoughtItems: doc.data().RarelyBoughtItems}, {Storage: doc.data().Storage}, {FullData: doc.data()});
                    //get the member money
                    console.log(moneyArray)
                    let i = 1;

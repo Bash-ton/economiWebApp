@@ -15,13 +15,20 @@
     border-collapse: collapse;
 
     font-size: 0.9em;
-    min-width: 400px;
+    /*min-width: 400px;
 
+     */
+    min-width: 40%;
     background-color: #ffffff;
     border-radius: 5px 5px 0 0;
 
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.46);
 
+}
+@media screen and (max-width: 800px ){
+    .content-table{
+        width: 70%;
+    }
 }
 .content-table thead tr{
 
@@ -46,4 +53,15 @@
     border-bottom: 5px solid rgb(248, 177, 8) ;
 
 }
+#deleteItem-btn{
+    border:none;
+    background-color: inherit;
+}
 
+@media screen and (max-width: 600px ){
+    .content-table th,
+    .content-table td{
+        padding: 2px 3px;
+        font-size: 0.7em;
+    }
+}

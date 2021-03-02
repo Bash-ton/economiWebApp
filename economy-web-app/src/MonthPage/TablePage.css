@@ -8,3 +8,18 @@
     justify-content: center;
     padding-top: 10%;
 }
+
+@media screen and (max-width: 800px ){
+    .TablePage-wrapper{
+        min-height:100%;
+
+    }
+    .content-table{
+        width: 100%;
+    }
+}
+@media screen and (max-width: 800px ){
+    .content-table{
+        width: 70%;
+    }
+}

@@ -7,6 +7,7 @@ export const signIn = (credentials) => {
             credentials.password
         ).then(() => {
             dispatch({ type: 'LOGIN_SUCCESS'})
+            dispatch({ type: 'GROUP_RESET'})
         }).catch((err)=> {
             dispatch({ type: 'LOGIN_ERROR', err})
 
@@ -19,7 +20,10 @@ export const signOut = () => {
         const firebase = getFirebase();
 
         firebase.auth().signOut().then(() => {
+
             dispatch({ type: 'SIGNOUT_SUCCESS' })
+            dispatch({ type: 'GROUP_RESET'})
+
         }).catch((err)=> {
             dispatch({ type: 'SIGNOUT_ERROR', err})
 

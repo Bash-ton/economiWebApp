@@ -18,6 +18,11 @@ const ItemReducer = (state = initState, action) => {
                 ...state,
                 items: action.item.items,
             };
+        case 'ITEMS_RESET':
+
+            return initState;
+
+
         default:
             return state;
     }

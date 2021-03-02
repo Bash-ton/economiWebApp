@@ -18,22 +18,28 @@ const AddItemPage = () => {
     const currentGroupID = useSelector(state => state.currentGroup.currentGroupPassword)
     const currentGroupName = useSelector(state => state.currentGroup.currentGroupName)
     const groupCheck = useSelector(state => state.currentGroup)
+    const isLogged = useSelector(state => state.auth.isLogged);
+    const testSt = useSelector(state => state)
+
+console.log(testSt)
 
 
-    if (groupCheck.currentGroupName === undefined) {
+
+    if (groupCheck.currentGroupName === undefined && isLogged) {
+        console.log(testSt)
         window.location = '/groups';
         alert("Please create or join a group first")
     }
 
 
-    const group1 = useSelector(state => state.currentGroup.myGroups1[0].groupName)
-    const group2 = useSelector(state => state.currentGroup.myGroups2[0].groupName)
-    const group3 = useSelector(state => state.currentGroup.myGroups3[0].groupName)
-    const group4 = useSelector(state => state.currentGroup.myGroups4[0].groupName)
+    const group1 = useSelector(state => state.currentGroup.myGroups1?.[0].groupName)
+    const group2 = useSelector(state => state.currentGroup.myGroups2?.[0].groupName)
+    const group3 = useSelector(state => state.currentGroup.myGroups3?.[0].groupName)
+    const group4 = useSelector(state => state.currentGroup.myGroups4?.[0].groupName)
 
 
-    //render depending on logged in or not
-    const isLogged = useSelector(state => state.auth.isLogged)
+
+
 
 
     //add to all pages that may need to force to first page when logged out
@@ -90,19 +96,45 @@ const AddItemPage = () => {
         setItemName(event.target.value);
     };
 
+    const clearForm = () => {
+        document.querySelector("#storeNameField").value = "";
+        document.querySelector("#itemNameField").value = "";
+        document.querySelector("#priceField").value = "";
+        document.querySelector("#defaultOption").selected ="selected";
 
+        document.querySelector("#numberOfItemsField").value = 1;
+
+
+        setStore("")
+        setPrice(0)
+        setItemName("")
+        setCategory("category")
+        setNumberOfItems(1)
+    }
+
+    const [loading, setLoading] = useState(false);
     const addItemToDB = () => {
-        if (!((store === "") || (itemName === "") || (price === 0) || (category === "Category"))) {
-
-            dispatch(createItem({
-                store: store,
-                price: price,
-                name: itemName,
-                category: category
-            }, {groupID: currentGroupID}));
-
-        } else {
+        setLoading(true)
+        if (( (store === "") || (itemName === "") || (price === 0) || (category === "category"))) {
+            setLoading(false)
             alert("Fill in all input fields first");
+        } else {
+            let i = 0;
+            while(i < numberOfItems){
+                dispatch(createItem({
+                    store: store,
+                    price: Math.round(parseFloat(price)),
+                    name: itemName,
+                    category: category
+                }, {groupID: currentGroupID}, numberOfItems, i));
+                if(i === (numberOfItems - 1)){
+                    clearForm();
+                    setLoading(false)
+                }
+                i++;
+            }
+
+
         }
     };
 
@@ -146,19 +178,19 @@ const AddItemPage = () => {
             <div action="" className="form-item">
                 <h2>Add item</h2>
                 <div className="input-group">
-                    <input type="text" name="loginUser" autoComplete="off" id="loginUser" onChange={(event) => {
+                    <input type="text" name="loginUser" autoComplete="off" id="storeNameField" onChange={(event) => {
                         handleStore(event)
                     }} required></input>
                     <label htmlFor="loginUser">Store</label>
                 </div>
                 <div className="input-group">
-                    <input type="text" name="loginPassword" autoComplete="off" id="loginPassword" onChange={(event) => {
+                    <input type="text" name="loginPassword" autoComplete="off" id="itemNameField" onChange={(event) => {
                         handleItemName(event)
                     }} required></input>
                     <label htmlFor="loginUser">Item Name</label>
                 </div>
                 <div className="input-group">
-                    <input type="number" name="loginPassword" autoComplete="off" id="loginPassword" min={0}
+                    <input type="number" name="loginPassword" autoComplete="off" id="priceField" min={0}
                            onChange={(event) => {
                                handlePrice(event)
                            }} required></input>
@@ -170,7 +202,7 @@ const AddItemPage = () => {
                             onChange={(event) => {
                                 handleCategory(event)
                             }} required>
-                        <option value="category">Category</option>
+                        <option id="defaultOption" value="category">Category</option>
                         <option value="Food">Food</option>
                         <option value="RarelyBoughtItems">Rarely bought items</option>
                         <option value="Detergent">Detergent</option>
@@ -182,15 +214,17 @@ const AddItemPage = () => {
                 </div>
                 <div className="input-group">
                     <input type="number" name="loginPassword" autoComplete="off" defaultValue={numberOfItems}
-                           id="loginPassword" min={0} required onChange={(event) => {
+                           id="numberOfItemsField" min={0} required onChange={(event) => {
                         handleNumberOfItems(event)
                     }}></input>
                     <label htmlFor="loginPassword">Number of items</label>
                 </div>
-                <button className="submit-btn" onClick={() => {
+                {loading?<button className="submit-btn" >Loading...
+                    </button>
+                    :<button className="submit-btn" onClick={() => {
                     addItemToDB()
                 }}>Add item
-                </button>
+                </button>}
             </div>
             </div>
         </div>

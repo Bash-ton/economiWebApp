@@ -45,6 +45,16 @@ const groupReducer = (state = initState, action) => {
                 ...state,
                 myGroups4: action.item
             }
+        case 'INVITE_PASSWORD':
+            return {
+                ...state,
+                inviteGroupName: action.item,
+                invitePassword: action.password
+            };
+        case 'GROUP_RESET':
+            return initState;
+
+
         default:
             return state;
     }

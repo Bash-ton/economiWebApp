@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ItemList from "./ItemList";
 import {useDispatch, useSelector} from 'react-redux';
 //listener for DB
@@ -6,15 +6,23 @@ import {useDispatch, useSelector} from 'react-redux';
 import {readItems} from "../Actions/getItemsActions";
 import './TablePage.css'
 
+
 const TablePage = () => {
     //tests
     //check local storage
     //else do this
 
     //tests
+    const [year, setYear] = useState(new Date().getFullYear());
+    const [month, setMonth] = useState(new Date().getMonth() + 1);
 
-    let year = new Date().getFullYear();
-    let month = new Date().getMonth() + 1
+    useEffect(()=>{
+        setYear(new Date().getFullYear())
+        setMonth(new Date().getMonth() + 1)
+        setOptionsUpToDate();
+    }, [])
+
+
 
     //dispatch
     const dispatch = useDispatch();
@@ -22,24 +30,30 @@ const TablePage = () => {
     //selectors
     const items = useSelector(state => state.items);
     const currentGroupID = useSelector(state => state.currentGroup.currentGroupPassword)
-    console.log(currentGroupID)
+    const isLogged = useSelector(state => state.auth.isLogged);
 
+
+    const groupCheck = useSelector(state => state.currentGroup)
+    if(groupCheck.currentGroupName === undefined && isLogged){
+        window.location = '/groups';
+        alert("Please create or join a group first")
+    }
 
     //event handlers
     const changeMonth = (event) => {
 
 
-        year = document.querySelector("#year").value;
-        month = event.target.value
-
-        dispatch(readItems((year + "-" + month), currentGroupID))
+        setYear(document.querySelector("#year").value);
+        setMonth(event.target.value);
+        console.log(year, month)
+        dispatch(readItems((document.querySelector("#year").value + "-" + event.target.value), currentGroupID))
     }
 
     const changeYear = (event) => {
-        month = document.querySelector("#month").value;
-        year = event.target.value
-
-        dispatch(readItems((year + "-" + month), currentGroupID))
+        setMonth(document.querySelector("#month").value);
+        setYear(event.target.value);
+        console.log(year, month)
+        dispatch(readItems((event.target.value + "-" + document.querySelector("#month").value), currentGroupID))
     }
     const setOptionsUpToDate = () => {
         let option = document.querySelector("#month").options;
@@ -52,9 +66,9 @@ const TablePage = () => {
     //lifecycle methods
     useEffect(() => {
         console.log(currentGroupID);
-        setOptionsUpToDate();
+
         dispatch(readItems((year + "-" + month), currentGroupID))
-    }, [])
+    }, [year, month])
 
 
 
@@ -84,7 +98,7 @@ const TablePage = () => {
                 </select>
                 <div className="col s12 m6">
                     {items ?
-                        <ItemList items={items}/> : ""
+                        <ItemList items={items} thisDate={year + "-" + month}/> : ""
                     }
 
                 </div>

@@ -42,11 +42,31 @@
     position: absolute;
     width: 100%;
     height: calc(100% );
+    min-height: 100vh;
     overflow: hidden;
     background: linear-gradient(90deg, rgba(2,0,.6,1) 0%, rgb(121, 9, 26) 35%, rgb(203, 99, 99) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.AddItemPage-wrapper{
+    position: absolute;
+    width: 100%;
+    height: calc(100% );
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(2,0,.6,1) 0%, rgb(121, 9, 26) 35%, rgb(203, 99, 99) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (max-width: 800px ){
+    .AddItemPage-wrapper{
+        padding-top: 0;
+        height: auto;
+        min-height: calc(100vh + 200px );
+    }
 }
 .flex-box{
     width: 400px;

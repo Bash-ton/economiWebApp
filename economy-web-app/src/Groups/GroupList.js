@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from "react";
 import './GroupList.css'
 import {useDispatch, useSelector} from "react-redux";
-import {changeCurrentGroup} from "../Actions/myGroupsActions";
+import {changeCurrentGroup, getPassword} from "../Actions/myGroupsActions";
 
+//TODO change alert to info box so that password can be copied
 const GroupList = ({group}) => {
 
+    const currentGroupPassword = useSelector(state => state.currentGroup.currentGroupPassword)
     const currentGroupName = useSelector(state => state.currentGroup.currentGroupName)
-    console.log(currentGroupName)
+    const inviteGroupName = useSelector(state => state.currentGroup.inviteGroupName)
+    const invitePassword = useSelector(state => state.currentGroup.invitePassword)
+
     //dispatch
     const dispatch = useDispatch();
 
@@ -17,23 +21,39 @@ const GroupList = ({group}) => {
             document.querySelector(".active").className = "not-active";
             setInitiallyMarked("not-active")
         }
-        document.getElementById(event.target.parentNode.id).className = "active"
+        document.getElementById(event.target.parentNode.parentNode.id).className = "active"
         setInitiallyMarked("active")
 
 
         dispatch(changeCurrentGroup(group[0].groupName));
     }
+
+    const inviteHandler = () => {
+        if ((currentGroupName === group[0].groupName)){
+            alert("Group name: " + currentGroupName + "\n" + "Password:" + currentGroupPassword)
+        } else if((inviteGroupName === group[0].groupName)){
+            alert("Group name: " + inviteGroupName + "\n" + "Password:" + invitePassword)
+        }else {
+            dispatch(getPassword(group[0].groupName))
+            setInvite(true);
+        }
+    }
+    const [invite, setInvite] = useState(false);
+    useEffect(() => {
+        if (invite) {
+            setInvite(false);
+            alert("Group name: " + inviteGroupName + "\n" + "Password:" + invitePassword)
+
+
+        }
+    }, [invitePassword])
+
     const [initiallyMarked, setInitiallyMarked] = useState("not-active");
-
-
     useEffect(() => {
 
         if (currentGroupName === group[0].groupName) {
             setInitiallyMarked("active")
-
         }
-
-
     }, [initiallyMarked])
 
     return (
@@ -41,14 +61,27 @@ const GroupList = ({group}) => {
         <table className="content-table">
             <thead>
             <tr className={initiallyMarked} id={group[0].groupName}>
-                <th className="list-header">Group Name: "{group[0].groupName}"
+
+                <div className="groupButton-wrapper">
+                    {(currentGroupName !== group[0].groupName) ? <button onClick={(event) => {
+                        changeCurrentGroupHandler(event)
+                    }} className="activeGroup-btn">set active
+                    </button> : ""}
+                    {((group.length - 1) !== 4) ? <button onClick={(event) => {
+                        inviteHandler()
+                    }} className="invite-btn">Invite member
+                    </button> : ""}
+                </div>
+
+                <br/>
+
+                <th className="list-header" id="groupTableHeader">Group Name: "{group[0].groupName}"
+
                     <div className="totalMembers">Members: {group.length - 1}/4</div>
                 </th>
 
-                <button onClick={(event) => {
-                    changeCurrentGroupHandler(event)
-                }} className="activeGroup-btn">set active
-                </button>
+
+
 
             </tr>
             </thead>

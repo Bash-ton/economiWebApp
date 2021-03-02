@@ -7,12 +7,11 @@ export const readItems = (date, id) => {
         const firebase = getFirebase();
 
 
-        firestore.collection("Items/" + date + "/" + id).onSnapshot( (queryS) => {
+        firestore.collection("Items/" + date + "/" + id).orderBy("date", "desc").onSnapshot( (queryS) => {
             let items = [];
             queryS.forEach((doc) =>{
-                items.push(doc.data());
+                items.push({...doc.data(), id: doc.id});
             });
-            console.log("Items in action: ", items);
             let values = {
                 items
             }

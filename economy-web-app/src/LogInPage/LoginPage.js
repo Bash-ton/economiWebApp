@@ -44,9 +44,11 @@ const LoginPage = () => {
             debugger
             window.location = '/addItem';
         }else if(isLogged === true){
-            window.location = '/groups';
+            window.location = 'groups';
         }
     }, [isLogged])
+
+
 
 /*
 *             <div className="LoginForm-wrapper">

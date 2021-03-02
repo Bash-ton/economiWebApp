@@ -13,6 +13,10 @@ const ColorReducer = (state = initState, action) => {
                 ...state,
                 colors: action.item,
             };
+        case 'CHANGE_COLORS_RESET':
+            return  {
+                initState
+            };
         default:
             return state;
     }

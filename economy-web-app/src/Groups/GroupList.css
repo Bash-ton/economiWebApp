@@ -17,17 +17,27 @@ thead:hover .totalMembers{
 .groupPage-wrapper{
     height: calc(100vh - 94px);
 }
+@media screen and (max-width: 800px ){
+    .groupPage-wrapper{
+        height: calc(100% + 94px);
+        min-height: 100vh;
+    }
+}
 .content-table{
     position: relative;
     margin:  auto;
 
 
 }
-.activeGroup-btn{
+.groupButton-wrapper{
     position: absolute;
     right: 0;
 }
 .activeGroup-btn:hover{
+    cursor: pointer;
+}
+
+.invite-btn:hover{
     cursor: pointer;
 }
 
