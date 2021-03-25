@@ -97,7 +97,7 @@ console.log(testSt)
     };
 
     const clearForm = () => {
-        document.querySelector("#storeNameField").value = "";
+        //document.querySelector("#storeNameField").value = "";
         document.querySelector("#itemNameField").value = "";
         document.querySelector("#priceField").value = "";
         document.querySelector("#defaultOption").selected ="selected";
@@ -105,7 +105,7 @@ console.log(testSt)
         document.querySelector("#numberOfItemsField").value = 1;
 
 
-        setStore("")
+       // setStore("")
         setPrice(0)
         setItemName("")
         setCategory("category")

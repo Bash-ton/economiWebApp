@@ -8,9 +8,14 @@ export const createItem = (item, id, numberOfItems, index) => {
 
         //get user current group from DB
 
+        //TODO change these back later to add old data
         let user = firebase.auth().currentUser.email;
+        //change Imnotgonnareadanyofthis@gmail.com
         let date = new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
-       // let date = new Date().getFullYear() + "-" + (new Date().getMonth()  );
+        //change back date
+        //let date = "2021-1"
+        //TODO ends here
+
         console.log(firebase.auth().currentUser);
 
         firestore.collection("Items/" + date + "/" + id.groupID).add({
